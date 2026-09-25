@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash of BaNG - Register</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Clash of BaNG</a>
+        <nav>
+            <a href="homepage.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="troops.html">Troops</a>
+            <a href="about.html">About</a>
+            <a href="register.html" class="active">Register</a>
+        </nav>
+    </header>
+
+    <div id="root"></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">Dyah Ayu Puspaningrum</div>
+            <div class="footer-right"><span>Jakarta</span><span>Bandung</span><span>Sanur</span></div>
+        </div>
+    </footer>
+
+    <script type="text/babel">
+        function ClashOfBangApp() {
+            const [members, setMembers] = React.useState([]);
+            const [editIndex, setEditIndex] = React.useState(null);
+            const [formData, setFormData] = React.useState({
+                name: '', email: '', gender: '', age: '', favTroop: '', reason: ''
+            });
+            const [errors, setErrors] = React.useState({});
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData({ ...formData, [name]: value });
+            };
+
+            const validateForm = () => {
+                let newErrors = {};
+                let isValid = true;
+
+                if (!formData.name.trim()) {
+                    newErrors.name = "Name is required.";
+                    isValid = false;
+                }
+                if (!formData.email.trim()) {
+                    newErrors.email = "Email is required.";
+                    isValid = false;
+                }
+                if (!formData.gender) {
+                    newErrors.gender = "Please select your gender.";
+                    isValid = false;
+                }
+                if (!formData.age) {
+                    newErrors.age = "Age is required.";
+                    isValid = false;
+                }
+                if (!formData.favTroop.trim()) {
+                    newErrors.troop = "Please enter your favorite troop.";
+                    isValid = false;
+                }
+                if (!formData.reason.trim()) {
+                    newErrors.reason = "Please specify your reason to join.";
+                    isValid = false;
+                }
+
+                setErrors(newErrors);
+                return isValid;
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (!validateForm()) return;
+
+                if (editIndex !== null) {
+                    const updatedMembers = [...members];
+                    updatedMembers[editIndex] = formData;
+                    setMembers(updatedMembers);
+                    setEditIndex(null);
+                    alert("Registration updated successfully!");
+                } else {
+                    setMembers([...members, formData]);
+                    alert("Registration successful! Welcome to the clan!");
+                }
+
+                setFormData({ name: '', email: '', gender: '', age: '', favTroop: '', reason: '' });
+                setErrors({});
+            };
+
+            const handleDelete = (index) => {
+                setMembers(members.filter((_, i) => i !== index));
+                if (editIndex === index) setEditIndex(null);
+            };
+
+            const handleEdit = (index) => {
+                setFormData(members[index]);
+                setEditIndex(index);
+            };
+
+            return (
+                <main className="container">
+                    <h1 className="section-title">
+                        {editIndex !== null ? 'Edit Clan Registration' : 'Join The Clan'}
+                    </h1>
+                    
+                    <div className="form-container">
+                        <form onSubmit={handleSubmit} noValidate>
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" className="form-control" value={formData.name} onChange={handleChange} placeholder="Your Name" />
+                                {errors.name && <div className="error-message" style={{color: 'red'}}>{errors.name}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" className="form-control" value={formData.email} onChange={handleChange} placeholder="Example@gmail.com" />
+                                {errors.email && <div className="error-message" style={{color: 'red'}}>{errors.email}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Gender</label>
+                                <div className="radio-group">
+                                    <label><input type="radio" name="gender" value="Man" checked={formData.gender === 'Man'} onChange={handleChange} /> Man</label>
+                                    <label><input type="radio" name="gender" value="Woman" checked={formData.gender === 'Woman'} onChange={handleChange} /> Woman</label>
+                                    <label><input type="radio" name="gender" value="Other" checked={formData.gender === 'Other'} onChange={handleChange} /> Other</label>
+                                </div>
+                                {errors.gender && <div className="error-message" style={{color: 'red'}}>{errors.gender}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Age</label>
+                                <input type="number" name="age" className="form-control" value={formData.age} onChange={handleChange} placeholder="Your Age" />
+                                {errors.age && <div className="error-message" style={{color: 'red'}}>{errors.age}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Favorite Troop</label>
+                                <input type="text" name="favTroop" className="form-control" value={formData.favTroop} onChange={handleChange} placeholder="e.g. Barbarian" />
+                                {errors.troop && <div className="error-message" style={{color: 'red'}}>{errors.troop}</div>}
+                            </div>
+
+                            <div className="form-group">
+                                <label>Reason To Join</label>
+                                <input type="text" name="reason" className="form-control" value={formData.reason} onChange={handleChange} placeholder="Why do you want to join?" />
+                                {errors.reason && <div className="error-message" style={{color: 'red'}}>{errors.reason}</div>}
+                            </div>
+
+                            <button type="submit" className="btn-submit">
+                                {editIndex !== null ? 'Update Registration' : 'Register'}
+                            </button>
+                        </form>
+                    </div>
+
+                    <section className="members-section" style={{ marginTop: '40px' }}>
+                        <h2>Registered Clan Members ({members.length})</h2>
+                        {members.length === 0 ? (
+                            <p>No members registered yet.</p>
+                        ) : (
+                            <ul className="members-list" style={{ listStyle: 'none', padding: 0 }}>
+                                {members.map((member, index) => (
+                                    <li key={index} className="member-card" style={{ background: '#f9f9f9', padding: '15px', marginBottom: '10px', borderRadius: '8px', border: '1px solid #ddd' }}>
+                                        <div>
+                                            <strong>{member.name}</strong> ({member.gender}, {member.age} y/o) - <em>{member.email}</em>
+                                            <p style={{ margin: '5px 0' }}>Favorite Troop: {member.favTroop}</p>
+                                            <p style={{ margin: '5px 0' }}>Reason: {member.reason}</p>
+                                        </div>
+                                        <div className="action-buttons" style={{ marginTop: '10px' }}>
+                                            <button onClick={() => handleEdit(index)} style={{ marginRight: '10px', padding: '5px 10px', background: '#ffc107', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Edit</button>
+                                            <button onClick={() => handleDelete(index)} style={{ padding: '5px 10px', background: '#dc3545', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Delete</button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </section>
+                </main>
+            );
+        }
+
+        ReactDOM.render(<ClashOfBangApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

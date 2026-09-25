@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash of BaNG - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Clash of BaNG</a>
+        <nav>
+            <a href="homepage.html" class="active">Home</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="troops.html">Troops</a>
+            <a href="about.html">About</a>
+            <a href="register.html">Register</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Clash of BaNG</h1>
+        <p>The Ultimate fan community for Clash-style fantasy strategy gaming.</p>
+        <a href="register.html" class="btn-cta">Join the Clan</a>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Game Updates</h2>
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <img src="assets/castle.avif" alt="New Castle Defense Update">
+                <div class="carousel-caption">New Castle Defense Update</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/clanWar.webp" alt="Clan War League">
+                <div class="carousel-caption">Dark Troops Awakening</div>
+            </div>
+            <div class="carousel-slide">
+                <img src="assets/barbarking.jpg" alt="Barbarian King Awakens">
+                <div class="carousel-caption">Clan Wars Season 5</div>
+            </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+
+        <h2 class="section-title">Popular Troops</h2>
+        <div class="grid-3">
+            <div class="card">
+                <img src="assets/warrior.jpg" alt="Warrior">
+                <div class="card-info">
+                    <h3>Warrior</h3>
+                    <p>Melee Fighter</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="assets/archer.png" alt="Archer">
+                <div class="card-info">
+                    <h3>Archer</h3>
+                    <p>Melee Fighter</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="assets/mage.jpg" alt="Mage">
+                <div class="card-info">
+                    <h3>Mage</h3>
+                    <p>Witch</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="brief-info">
+        <h2>Clash of BaNG</h2>
+        <p>Founded in 2018, Clash of BaNG is a thriving fan community with three hubs across Indonesia. We specialize in troop guides, hero strategies, and fan art with a special focus on Dark Troops.</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-left">Dyah Ayu Puspaningrum</div>
+            <div class="footer-right"><span>Jakarta</span><span>Bandung</span><span>Sanur</span></div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                    dots[i].classList.add('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 3000);
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+    </script>
+</body>
+</html>
